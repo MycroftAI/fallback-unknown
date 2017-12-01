@@ -24,6 +24,10 @@ class UnknownSkill(FallbackSkill):
 
     def handle_fallback(self, message):
         self.speak_dialog('unknown')
+        try:
+            self.report_metric('failed-intent', {'utterance': message.data['utterance']})
+        except:
+            self.log.exception('Error reporting metric')
         return True
 
 
