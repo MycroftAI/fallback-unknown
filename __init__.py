@@ -12,7 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from os.path import join
 from mycroft.skills.core import FallbackSkill
+from mycroft.util.parse import normalize
 
 
 class UnknownSkill(FallbackSkill):
@@ -22,12 +24,25 @@ class UnknownSkill(FallbackSkill):
     def initialize(self):
         self.register_fallback(self.handle_fallback, 100)
 
+    def read_voc_lines(self, name):
+        with open(join(self.vocab_dir, name + '.voc')) as f:
+            return filter(bool, map(str.strip, f.read().split('\n')))
+
     def handle_fallback(self, message):
-        self.speak_dialog('unknown')
+        utterance = normalize(message.data['utterance'])
+
         try:
-            self.report_metric('failed-intent', {'utterance': message.data['utterance']})
+            self.report_metric('failed-intent', {'utterance': utterance})
         except:
             self.log.exception('Error reporting metric')
+
+        for i in ['question', 'who.is', 'why.is']:
+            for l in self.read_voc_lines(i):
+                if utterance.startswith(l):
+                    self.log.info('Fallback type: ' + i)
+                    self.speak_dialog(i, data={'remaining': l.replace(i, '')})
+                    return True
+        self.speak_dialog('unknown')
         return True
 
 
