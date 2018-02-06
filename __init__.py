@@ -29,7 +29,7 @@ class UnknownSkill(FallbackSkill):
             return filter(bool, map(str.strip, f.read().split('\n')))
 
     def handle_fallback(self, message):
-        utterance = normalize(message.data['utterance'])
+        utterance = message.data['utterance']
 
         try:
             self.report_metric('failed-intent', {'utterance': utterance})
