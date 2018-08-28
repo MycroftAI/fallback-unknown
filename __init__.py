@@ -25,7 +25,7 @@ class UnknownSkill(FallbackSkill):
         self.register_fallback(self.handle_fallback, 100)
 
     def read_voc_lines(self, name):
-        with open(join(self.vocab_dir, name + '.voc')) as f:
+        with open(self.find_resource(name + '.voc', 'vocab')) as f:
             return filter(bool, map(str.strip, f.read().split('\n')))
 
     def handle_fallback(self, message):
