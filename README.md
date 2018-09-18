@@ -4,10 +4,7 @@ Fallback handler to deal with unknown _Utterances_ that can't be handled by exis
 ## About 
 Mycroft doesn't know how to do or answer everything (yet).  This _Fallback_ is how Mycroft lets you know that, unfortunately, it can't help with what you asked for. 
 
-But wait, there is still hope!  Mycroft is working to get smarter with help from friends.  For who have selected to [Opt In to the Open Dataset](https://home.mycroft.ai/#/setting/basic#opendataset), these missed phrases will be aggregated and analyzed to help identify what the world _wants_ their voice assistant to do that it can't.  So if millions of people start asking for guava growing tips, we'll promote this as an idea to be handled as a default Skill.
-
-We also are beginning mechanisms which can help you find existing Skills that can be added to your Device.
-
+But wait, there is still hope!  Mycroft is working to get smarter with help from friends.  For who have selected to [Opt In to the Open Dataset](https://home.mycroft.ai/#/setting/basic#opendataset), these missed phrases are aggregated and analyzed to help identify what the world _wants_ their voice assistant to do that it can't yet.  So if millions of people start asking for guava growing tips, we'll promote this as an idea to be handled as a default Skill.
 
 ## Examples 
 * "How do I make my guava blue?"
