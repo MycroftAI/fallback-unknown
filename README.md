@@ -1,4 +1,4 @@
-# <img src='https://rawgithub.com/FortAwesome/Font-Awesome/master/advanced-options/raw-svg/solid/question.svg ' card_color='#22a7f0' width='50' height='50' style='vertical-align:bottom'/> Unknown fallback
+# <img src='https://rawgithub.com/FortAwesome/Font-Awesome/master/advanced-options/raw-svg/solid/question.svg' card_color='#22a7f0' width='50' height='50' style='vertical-align:bottom'/> Unknown fallback
 Fallback handler to deal with unknown _Utterances_ that can't be handled by existing _Intents_
 
 ## About 
