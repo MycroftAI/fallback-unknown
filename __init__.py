@@ -42,7 +42,11 @@ class UnknownSkill(FallbackSkill):
                     self.log.info('Fallback type: ' + i)
                     self.speak_dialog(i, data={'remaining': l.replace(i, '')})
                     return True
-        self.speak_dialog('unknown')
+
+        unknown_file = join(abspath(dirname(__file__)),
+                          "sounds/unknown.mp3")
+        play_mp3(unknown_file)
+
         return True
 
 
