@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from os.path import join
 from mycroft.skills.core import FallbackSkill
-from mycroft.util.parse import normalize
 
 
 class UnknownSkill(FallbackSkill):
@@ -33,7 +31,7 @@ class UnknownSkill(FallbackSkill):
 
         try:
             self.report_metric('failed-intent', {'utterance': utterance})
-        except:
+        except Exception:
             self.log.exception('Error reporting metric')
 
         for i in ['question', 'who.is', 'why.is']:
