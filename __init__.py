@@ -21,6 +21,8 @@ class UnknownSkill(FallbackSkill):
 
     def initialize(self):
         self.register_fallback(self.handle_fallback, 100)
+        self.add_event('mycroft.speech.recognition.unknown',
+                       self.handle_unknown_recognition)
 
     def read_voc_lines(self, name):
         with open(self.find_resource(name + '.voc', 'vocab')) as f:
@@ -41,8 +43,16 @@ class UnknownSkill(FallbackSkill):
                         self.log.info('Fallback type: ' + i)
                         self.speak_dialog(i, data={'remaining': l.replace(i, '')}, wait=True)
                         return True
+
+            self.log.info(utterance)
             self.speak_dialog('unknown', wait=True)
             return True
+
+    def handle_unknown_recognition(self, message):
+        """Called when no transcription is returned from STT"""
+        with self.activity():
+            self.log.info('Unknown recognition')
+            self.speak_dialog('unknown', wait=True)
 
 
 def create_skill():
