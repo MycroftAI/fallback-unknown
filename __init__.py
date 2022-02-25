@@ -23,6 +23,8 @@ class UnknownSkill(FallbackSkill):
         self.register_fallback(self.handle_fallback, 100)
         self.add_event('mycroft.speech.recognition.unknown',
                        self.handle_unknown_recognition)
+        self.add_event('complete_intent_failure',
+                       self.handle_unknown_recognition)
 
     def read_voc_lines(self, name):
         with open(self.find_resource(name + '.voc', 'vocab')) as f:
