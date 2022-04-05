@@ -26,6 +26,7 @@ class UnknownSkill(FallbackSkill):
     def __init__(self):
         super(UnknownSkill, self).__init__()
         self.last_utterances = deque(maxlen=MAX_DISPLAY_UTTERANCES + 1)
+        self.question_vocab = dict()
 
     def initialize(self):
         self.register_fallback(self.handle_fallback, 100)
@@ -34,10 +35,14 @@ class UnknownSkill(FallbackSkill):
         )
         self.add_event("complete_intent_failure", self.handle_unknown_recognition)
         self.add_event("recognizer_loop:utterance", self.handle_utterance)
+        self.load_question_vocab()
 
-    def read_voc_lines(self, name):
-        with open(self.find_resource(name + ".voc", "vocab")) as f:
-            return filter(bool, map(str.strip, f.read().split("\n")))
+    def load_question_vocab(self):
+        """Load question marker vocabulary to provide more specific response."""
+        for group in ["question", "who.is", "why.is"]:
+            self.question_vocab[group] = [
+                vocab[0] for vocab in self.resources.load_vocabulary_file(group)
+            ]
 
     def handle_fallback(self, message):
         with self.activity():
@@ -49,12 +54,12 @@ class UnknownSkill(FallbackSkill):
             except Exception:
                 self.log.exception("Error reporting metric")
 
-            for i in ["question", "who.is", "why.is"]:
-                for l in self.read_voc_lines(i):
-                    if utterance.startswith(l):
-                        self.log.info("Fallback type: " + i)
+            for key, vocab in self.question_vocab.items():
+                for line in vocab:
+                    if utterance.startswith(line):
+                        self.log.info("Fallback type: " + line)
                         self.speak_dialog(
-                            i, data={"remaining": l.replace(i, "")}, wait=True
+                            key, data={"remaining": line.replace(key, "")}, wait=True
                         )
                         return True
 
